@@ -4,10 +4,10 @@ N,M=map(int,sys.stdin.readline().split())
 site={}
 
 for _ in range(1,N+1):
-    addless,pw=sys.stdin.readline().split()    
-    site[addless]=pw
+    address,pw=sys.stdin.readline().split()    
+    site[address]=pw
 
 
 for _ in range(M):
-    addless=sys.stdin.readline().strip()
-    sys.stdout.write(str(site[addless])+"\n")
+    address=sys.stdin.readline().strip()
+    sys.stdout.write(str(site[address])+"\n")
