@@ -1,7 +1,6 @@
 n = int(input())
 grid = [input().strip() for _ in range(n)]
 
-# 위치 저장
 home = ""
 end = ""
 cookies = {"J": [], "C": [], "B": [], "W": []}
@@ -20,32 +19,31 @@ def dist(start, end):
     return abs(start[0] - end[0]) + abs(start[1] - end[1])  # abs 절댓값
 
 def min_distance(topping):
-    min_dist = float('inf') 
+    min_dist = float('inf')
     visited = [False] * 3 
 
-    def backtrack(path, current_dist):
+    def search_path(path, current_dist):
         nonlocal min_dist
-
 
         if len(path) == 3:
             total_dist = current_dist
-            total_dist += dist(home, cookies[topping][path[0]])  # 집에서 첫 번째 토핑까지 거리
+            total_dist += dist(home, cookies[topping][path[0]])  # Home ~ 1 토핑 
             for i in range(1, 3):
-                total_dist += dist(cookies[topping][path[i - 1]], cookies[topping][path[i]])  # 중간에 있는 토핑들 간 거리
-            total_dist += dist(cookies[topping][path[-1]], end)  # 마지막 토핑에서 끝까지 거리
+                total_dist += dist(cookies[topping][path[i - 1]], cookies[topping][path[i]])  # 1 ~ 2 토핑, 2 ~ 3 토핑
+            total_dist += dist(cookies[topping][path[-1]], end)  # 3 토핑 ~ 쿠키크루삥뽕
             min_dist = min(min_dist, total_dist)
             return
 
-        for i in range(3):  
+        for i in range(3):
             if not visited[i]:
                 visited[i] = True
-                backtrack(path + [i], current_dist)
+                search_path(path + [i], current_dist)
                 visited[i] = False
 
-    backtrack([], 0)
+    search_path([], 0)
     return min_dist
 
-# 분야별 최소 거리 계산
+# 각 최소 거리
 results = {
     "Assassin": min_distance("J"),
     "Healer": min_distance("C"),
@@ -53,7 +51,7 @@ results = {
     "Tanker": min_distance("W")
 }
 
-# 거리가 가장 작은 값을 찾고, 동일한 거리가 있으면 분야 이름 순으로 정렬
+# 거리가 가장 작은 값을 찾고, 동일한 거리가 있으면 우선순위 순으로
 sorted_results = sorted(results.items(), key=lambda x: (x[1], x[0]))
 
 print(sorted_results[0][0])
