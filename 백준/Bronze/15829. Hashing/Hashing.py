@@ -6,9 +6,10 @@ string = input().strip()
 
 val = 0  
 r = 31 
+M = 1234567891 
 
 for i in range(L):
-    char_value = ord(string[i]) - ord('a') + 1 
-    val += char_value * (r ** i) 
+    char = ord(string[i]) - ord('a') + 1 
+    val += char * (r ** i) 
 
-print(val) 
+print(val % M) 
