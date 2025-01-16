@@ -1,16 +1,16 @@
 import sys
-N = int(sys.stdin.readline())
-book_lst = []
-for i in range(N):
-    book_lst.append(int(sys.stdin.readline()))
+input = sys.stdin.readline
+ 
+#ax값을 지정해주고 이 값보다 작거나 같은 경우에만 책을 위로 옮기면 된다. 
 
-maxbook = max(book_lst)
-
-idx = book_lst.index(maxbook)
-answer = len(book_lst)-idx-1
-for book in book_lst[:idx][::-1]:
-    if book == maxbook - 1:
-        maxbook = book
+books = [int(input()) for _ in range(int(input().strip('\n')))]
+max = books[0]
+cnt = 0
+for i in books[1:]:
+    if i > max:
+        if max + 1 != i:
+            cnt += 1
+        max = i
     else:
-        answer += 1
-print(answer)
+        cnt += 1
+print(cnt)
