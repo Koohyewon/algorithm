@@ -1,15 +1,17 @@
-import sys
+N = int(input())
+M = int(input())
+S = input()
+answer, i, count = 0, 0, 0
 
-N = int(sys.stdin.readline().strip())
-M = int(sys.stdin.readline().strip())
-S = sys.stdin.readline().strip()
+while i < (M - 1):
+    if S[i:i+3] == 'IOI':
+        i += 2
+        count += 1
+        if count == N:
+            answer += 1
+            count -= 1
+    else:
+        i += 1
+        count = 0
 
-P = 'IO'*N + 'I'
-
-cnt = 0
-for i in range(M):
-  if S[i] == 'I':
-    if S[i:i+(N*2+1)] == P and i <= M:
-      cnt += 1
-
-print(cnt)
+print(answer)
