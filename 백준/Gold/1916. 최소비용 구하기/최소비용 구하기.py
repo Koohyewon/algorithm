@@ -1,21 +1,36 @@
-from queue import PriorityQueue
-n=int(input())
-m=int(input())
-l=[[] for _ in range(n+1)]
-for i in range(m):
-    p,q,r = map(int,input().split())
-    l[p].append((q,r))#시작,도착,가중치
-s,e = map(int,input().split())
-visited = [0]*(n+1)
-value = [float('inf')]*(n+1)
-value[s]=0
-que = PriorityQueue()
-que.put((value[s],s))#0,1
-while not que.empty():
-    x,y = que.get()#가중치,시작
-    if visited[y]==1:continue
-    visited[y]=1
-    for q,r in l[y]:#도착,가중치
-        if(r+x<value[q] and visited[q]==0):value[q]=x+r
-        que.put((value[q],q))
-print(value[e])
+import sys
+import heapq
+input = sys.stdin.readline
+
+N = int(input())  
+M = int(input())
+
+graph = [[] for _ in range(N + 1)]
+
+for _ in range(M):
+    start, end, cost = map(int, input().split())
+    graph[start].append((end, cost))  
+
+start_city, end_city = map(int, input().split())
+
+def dijkstra(start):    
+    d = [float('inf')] * (N + 1)  
+    d[start] = 0  
+    pq = [(0, start)]  
+
+    while pq:
+        cost, node = heapq.heappop(pq) 
+
+        if cost > d[node]:  
+            continue  
+        
+        for next, weight in graph[node]:
+            new_cost = cost + weight
+            if new_cost < d[next]:  
+                d[next] = new_cost
+                heapq.heappush(pq, (new_cost, next))
+    
+    return d
+
+result = dijkstra(start_city)
+print(result[end_city]) 
