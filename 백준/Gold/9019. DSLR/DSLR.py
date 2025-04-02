@@ -1,39 +1,38 @@
+import sys
 from collections import deque
-
-def dslr(n, op):
-    if op == 'D':
-        return (n * 2) % 10000
-    elif op == 'S':
-        return 9999 if n == 0 else n - 1
-    elif op == 'L':
-        return (n % 1000) * 10 + n // 1000
-    elif op == 'R':
-        return (n % 10) * 1000 + n // 10
-
-def bfs(A, B):
-    queue = deque([A])
-    visited = {A: ""}  
-
-    while queue:
-        num = queue.popleft()
-        path = visited[num]
-        
-        if num == B:
-            return path
-
-        for op in "DSLR":
-            new_num = dslr(num, op)
-            if new_num not in visited: 
-                visited[new_num] = path + op
-                queue.append(new_num)
-
-    return ""
-
-T = int(input().strip())
-results = []
+T = int(input())
 
 for _ in range(T):
-    A, B = map(int, input().split())
-    results.append(bfs(A, B))
+    A, B = map(int,sys.stdin.readline().rstrip().split())
 
-print("\n".join(results))
+    visited = [False for i in range(10001)]
+    deq = deque()
+    deq.append([A,''])
+    visited[A] = True
+
+    while deq:
+        num, command = deq.popleft()
+
+        if num == B:
+            print(command)
+            break
+
+        d = num * 2 % 10000
+        if not visited[d]:
+            visited[d] = True
+            deq.append([d, command + 'D'])
+
+        s = (num - 1) % 10000
+        if not visited[s]:
+            visited[s] = True
+            deq.append([s, command + 'S'])
+
+        l = num // 1000 + (num % 1000)*10
+        if not visited[l]:
+            visited[l] = True
+            deq.append([l, command + 'L'])
+
+        r = num // 10 + (num % 10) * 1000
+        if not visited[r]:
+            visited[r] = True
+            deq.append([r, command + 'R'])
