@@ -12,3 +12,5 @@ for i in range(n-1):
         current_up=0
         
 print(max_up)
+
+# for문으로 모든 원소를 한 번씩만 확인하므로 시간복잡도: O(N), 1 ≤ N ≤ 1000
