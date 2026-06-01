@@ -1,14 +1,14 @@
 def solution(s):
-    answer = 0
+    answer = 1
     stack=[]
     
-    for i in s:
+    for i in s: #s문자열 길이만큼 반복 O(n)
         if stack and i == stack[-1]:
             stack.pop()
         else:
             stack.append(i)
             
-    if len(stack)==0:
-        answer=1
+    if stack:
+        answer = 0
         
     return answer
